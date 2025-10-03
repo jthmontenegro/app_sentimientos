@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ilumina Tus Sentimientos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563EB;
+            --secondary: #60A5FA;
+            --accent: #D97706;
+            --light: #FEFEFE;
+            --dark: #1F2937;
+            --text: #374151;
+            --background: #ffffff;
+            --success: #10B981;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --safe-top: env(safe-area-inset-top);
+            --safe-bottom: env(safe-area-inset-bottom);
+        }
+
+        .theme-male {
+            --primary: #1E40AF;
+            --secondary: #3B82F6;
+            --accent: #D97706;
+            --light: #F0F9FF;
+            --dark: #1E3A8A;
+        }
+
+        .theme-female {
+            --primary: #2563EB;
+            --secondary: #60A5FA;
+            --accent: #D97706;
+            --light: #FEF7FF;
+            --dark: #1F2937;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--light) 0%, #ffffff 100%);
+            color: var(--text);
+            transition: all 0.4s ease;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: var(--safe-top) 0 var(--safe-bottom) 0;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: calc(100vh - var(--safe-top) - var(--safe-bottom));
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1%, transparent 1%);
+            background-size: 20px 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(180deg); }
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(135deg, #FFFFFF 0%, #FBBF24 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+        }
+
+        .screen {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .active {
+            display: flex;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            padding: 18px 32px;
+            margin: 10px 8px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.2);
+            min-height: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255,255,255,0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn:hover::after, .btn:active::after {
+            opacity: 1;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent) 0%, #F59E0B 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary) 0%, #93C5FD 100%);
+        }
+
+        .btn-small {
+            padding: 14px 24px;
+            font-size: 1rem;
+            min-height: 50px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1.1rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 18px;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid var(--primary);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .mood-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .mood-item {
+            background: white;
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 150px;
+        }
+
+        .mood-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            border-color: var(--primary);
+        }
+
+        .mood-icon {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .mood-item:hover .mood-icon {
+            transform: scale(1.1);
+        }
+
+        .gift-message {
+            background: linear-gradient(135deg, #60A5FA 0%, #2563EB 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 35px 30px;
+            margin: 25px 0;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+            animation: pulse 2s infinite;
+            border: 3px solid rgba(255,255,255,0.2);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3); }
+            50% { box-shadow: 0 8px 30px rgba(37, 99, 235, 0.5); }
+            100% { box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3); }
+        }
+
+        .gift-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .gift-text {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .verse-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px 28px;
+            margin: 25px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            animation: cardAppear 0.6s ease;
+            border: 2px solid rgba(37, 99, 235, 0.1);
+        }
+
+        @keyframes cardAppear {
+            0% { opacity: 0; transform: scale(0.9) rotate(-2deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0); }
+        }
+
+        .verse-text {
+            font-size: 1.4rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            color: var(--dark);
+        }
+
+        .verse-reference {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: #E5E7EB;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .favorite-btn:hover {
+            background: rgba(0,0,0,0.05);
+        }
+
+        .favorite-btn.active {
+            color: var(--accent);
+            animation: heartBeat 0.6s ease;
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.3); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #E5E7EB;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 16px 24px;
+            cursor: pointer;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            flex: 1;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .journal-entry {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 18px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--secondary);
+        }
+
+        .journal-date {
+            font-size: 0.95rem;
+            color: #6B7280;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .journal-text {
+            line-height: 1.6;
+            font-size: 1.05rem;
+        }
+
+        .user-info {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            display: flex;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent) 0%, #F59E0B 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            font-size: 1.2rem;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 10px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .message {
+            padding: 18px;
+            border-radius: 12px;
+            margin: 18px 0;
+            text-align: center;
+            animation: slideIn 0.4s ease;
+            font-size: 1.05rem;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .message.success {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .message.error {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .import-section {
+            margin-top: 35px;
+            padding-top: 30px;
+            border-top: 2px dashed #E5E7EB;
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            margin: 18px 0;
+        }
+        
+        .file-input {
+            width: 100%;
+            padding: 18px;
+            border: 2px dashed #60A5FA;
+            border-radius: 12px;
+            background: rgba(96, 165, 250, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+        }
+        
+        .file-input:hover {
+            background: rgba(96, 165, 250, 0.2);
+            border-color: #2563EB;
+        }
+        
+        .file-input::file-selector-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 15px;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 25px;
+            color: #6B7280;
+            font-size: 1rem;
+        }
+
+        .author {
+            margin-top: 12px;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background-color: var(--accent);
+            opacity: 0;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(1000px) rotate(360deg); opacity: 0; }
+        }
+
+        .backup-reminder {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+        }
+
+        .reminder-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .reminder-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .app-container {
+                padding: 15px;
+            }
+            
+            .mood-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .user-info {
+                position: static;
+                justify-content: center;
+                margin-top: 20px;
+            }
+            
+            .btn {
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .verse-text {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mood-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            header {
+                padding: 25px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Pantalla de Bienvenida -->
+        <div id="welcome-screen" class="screen active">
+            <header>
+                <h1>Ilumina Tus Sentimientos</h1>
+                <p class="subtitle">Encuentra paz y esperanza en cada emoción</p>
+            </header>
+            
+            <div style="text-align: center; margin-top: 50px;">
+                <i class="fas fa-heart" style="font-size: 5rem; color: var(--accent); margin-bottom: 35px; animation: bounce 2s infinite;"></i>
+                <h2 style="margin-bottom: 25px; font-size: 2rem; color: var(--dark);">Bienvenido a Tu Refugio</h2>
+                <p style="margin-bottom: 45px; font-size: 1.2rem; line-height: 1.7; color: var(--text);">
+                    Descubre mensajes especiales de la Biblia que iluminarán tu día según cómo te sientes.
+                </p>
+                
+                <div>
+                    <button id="login-btn" class="btn">Iniciar Sesión</button>
+                    <button id="register-btn" class="btn btn-accent">Registrarse</button>
+                    <button id="load-data-btn" class="btn btn-secondary">
+                        <i class="fas fa-upload"></i> Cargar Mis Datos
+                    </button>
+                </div>
+            </div>
+            
+            <footer>
+                <p>Basado en la Santa Biblia Reina-Valera 1960</p>
+                <p class="author">Creado con ❤️ por Jonathan Montenegro</p>
+            </footer>
+        </div>
+        
+        <!-- Pantalla de Registro -->
+        <div id="register-screen" class="screen">
+            <header>
+                <h1>Crear Cuenta</h1>
+                <p class="subtitle">Comienza tu viaje de luz interior</p>
+            </header>
+            
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="register-username">Nombre de Usuario</label>
+                    <input type="text" id="register-username" required placeholder="Tu nombre único">
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-password">Contraseña</label>
+                    <input type="password" id="register-password" required placeholder="Mínimo 8 caracteres con 1 número">
+                    <div id="password-error" style="color: var(--danger); font-size: 0.9rem; margin-top: 8px; display: none;"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-gender">Género (para personalizar tu experiencia)</label>
+                    <select id="register-gender" required>
+                        <option value="">Selecciona tu género</option>
+                        <option value="male">Hombre</option>
+                        <option value="female">Mujer</option>
+                    </select>
+                </div>
+                
+                <div style="text-align: center; margin-top: 35px;">
+                    <button type="submit" class="btn btn-accent">Crear Mi Cuenta</button>
+                    <button type="button" id="register-back" class="btn btn-secondary">Volver</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Pantalla de Login -->
+        <div id="login-screen" class="screen">
+            <header>
+                <h1>Iniciar Sesión</h1>
+                <p class="subtitle">Continúa tu camino de luz</p>
+            </header>
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-username">Nombre de Usuario</label>
+                    <input type="text" id="login-username" required placeholder="Tu nombre de usuario">
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password">Contraseña</label>
+                    <input type="password" id="login-password" required placeholder="Tu contraseña">
+                </div>
+                
+                <div style="text-align: center; margin-top: 35px;">
+                    <button type="submit" class="btn btn-accent">Ingresar</button>
+                    <button type="button" id="login-back" class="btn btn-secondary">Volver</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Pantalla Principal -->
+        <div id="main-screen" class="screen">
+            <header>
+                <h1>Ilumina Tus Sentimientos</h1>
+                <p class="subtitle">Selecciona cómo te sientes hoy</p>
+                <div class="user-info">
+                    <div class="user-avatar" id="user-avatar">U</div>
+                    <button id="logout-btn" class="logout-btn">Cerrar Sesión</button>
+                </div>
+            </header>
+            
+            <div class="mood-grid" id="mood-grid">
+                <!-- Los estados de ánimo se cargarán dinámicamente -->
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 25px;">
+                <button id="favorites-btn" class="btn btn-secondary">
+                    <i class="fas fa-gem"></i> Mis Tesoros Guardados
+                </button>
+                <button id="journal-btn" class="btn btn-secondary">
+                    <i class="fas fa-book-open"></i> Mi Diario Personal
+                </button>
+                <button id="data-btn" class="btn">
+                    <i class="fas fa-database"></i> Respaldar Mis Datos
+                </button>
+            </div>
+        </div>
+        
+        <!-- Pantalla de Mensaje Regalo -->
+        <div id="gift-screen" class="screen">
+            <header>
+                <h1>Tu Regalo Especial</h1>
+                <p class="subtitle">Un mensaje personal para tu corazón</p>
+                <div class="user-info">
+                    <div class="user-avatar" id="gift-user-avatar">U</div>
+                    <button id="gift-back" class="logout-btn">Volver</button>
+                </div>
+            </header>
+            
+            <div id="gift-container">
+                <!-- El mensaje regalo se cargará dinámicamente -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 35px;">
+                <button id="open-gift-btn" class="btn btn-accent">
+                    <i class="fas fa-gift"></i> Abrir Mi Versículo Especial
+                </button>
+            </div>
+        </div>
+        
+        <!-- Pantalla de Versículos -->
+        <div id="verse-screen" class="screen">
+            <header>
+                <h1>Tu Regalo del Día</h1>
+                <p class="subtitle">Palabra de Dios para tu corazón</p>
+                <div class="user-info">
+                    <div class="user-avatar" id="verse-user-avatar">U</div>
+                    <button id="verse-back" class="logout-btn">Volver</button>
+                </div>
+            </header>
+            
+            <div id="verse-container">
+                <!-- El versículo se cargará dinámicamente -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 25px;">
+                <button id="new-verse-btn" class="btn btn-accent">Otro Versículo</button>
+                <button id="add-favorite-btn" class="btn">
+                    <i class="far fa-heart"></i> Guardar en Tesoros
+                </button>
+            </div>
+        </div>
+        
+        <!-- Pantalla de Favoritos y Diario -->
+        <div id="favorites-screen" class="screen">
+            <header>
+                <h1>Mis Tesoros</h1>
+                <p class="subtitle">Tus versículos guardados y reflexiones</p>
+                <div class="user-info">
+                    <div class="user-avatar" id="fav-user-avatar">U</div>
+                    <button id="fav-back" class="logout-btn">Volver</button>
+                </div>
+            </header>
+            
+            <div class="tabs">
+                <div class="tab active" data-tab="favorites">Tesoros</div>
+                <div class="tab" data-tab="journal">Mi Diario</div>
+            </div>
+            
+            <div class="tab-content active" id="favorites-tab">
+                <div id="favorites-list">
+                    <!-- Los favoritos se cargarán dinámicamente -->
+                </div>
+            </div>
+            
+            <div class="tab-content" id="journal-tab">
+                <div class="form-group">
+                    <label for="journal-entry">Escribe tu reflexión:</label>
+                    <textarea id="journal-entry" rows="5" placeholder="Comparte tus pensamientos, oraciones o lo que Dios está haciendo en tu vida..."></textarea>
+                </div>
+                <button id="save-journal-btn" class="btn btn-accent">Guardar en Mi Diario</button>
+                
+                <div id="journal-entries" style="margin-top: 35px;">
+                    <!-- Las entradas del diario se cargarán dinámicamente -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pantalla de Exportar/Importar -->
+        <div id="data-screen" class="screen">
+            <header>
+                <h1>Respaldar Mis Datos</h1>
+                <p class="subtitle">Mantén seguros tus tesoros espirituales</p>
+                <div class="user-info">
+                    <div class="user-avatar" id="data-user-avatar">U</div>
+                    <button id="data-back" class="logout-btn">Volver</button>
+                </div>
+            </header>
+            
+            <div class="card">
+                <h3><i class="fas fa-download"></i> Exportar Mis Datos</h3>
+                <p>Guarda tus versículos favoritos y entradas de diario.</p>
+                
+                <div style="display: flex; gap: 12px; margin-top: 20px;">
+                    <button id="save-data-btn" class="btn btn-accent">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                    <button id="export-data-btn" class="btn btn-secondary">
+                        <i class="fas fa-file-export"></i> Guardar Como
+                    </button>
+                </div>
+                
+                <div id="last-save-info" style="margin-top: 15px; padding: 12px; background: rgba(96, 165, 250, 0.1); border-radius: 8px; display: none;">
+                    <small><i class="fas fa-info-circle"></i> <span id="last-save-text"></span></small>
+                </div>
+            </div>
+            
+            <div class="card import-section">
+                <h3><i class="fas fa-upload"></i> Importar Datos</h3>
+                <p>Restaura tus datos desde un archivo previamente exportado.</p>
+                
+                <div class="file-input-wrapper">
+                    <input type="file" id="import-file" class="file-input" accept=".json">
+                </div>
+                
+                <button id="import-data-btn" class="btn btn-secondary">
+                    <i class="fas fa-file-import"></i> Importar Datos
+                </button>
+            </div>
+            
+            <div id="data-message" class="message" style="display: none;"></div>
+        </div>
+
+        <!-- Pantalla de Cargar Datos -->
+        <div id="load-data-screen" class="screen">
+            <header>
+                <h1>Cargar Mis Datos</h1>
+                <p class="subtitle">Recupera tus tesoros espirituales</p>
+            </header>
+            
+            <div class="card">
+                <h3><i class="fas fa-upload"></i> Importar desde Archivo</h3>
+                <p>Selecciona tu archivo JSON para recuperar tus datos.</p>
+                
+                <div class="file-input-wrapper">
+                    <input type="file" id="load-data-file" class="file-input" accept=".json">
+                </div>
+                
+                <button id="process-data-btn" class="btn btn-accent">
+                    <i class="fas fa-cloud-upload-alt"></i> Procesar Archivo
+                </button>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button id="load-data-back" class="btn btn-secondary">Volver al Inicio</button>
+            </div>
+            
+            <div id="load-data-message" class="message" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de versículos bíblicos por estado de ánimo
+        const bibleVerses = {
+            tristeza: [
+                { text: "El llanto puede durar toda la noche, pero a la mañana vendrá la alegría.", reference: "Salmos 30:5" },
+                { text: "Bendito sea el Dios y Padre de nuestro Señor Jesucristo, Padre de misericordias y Dios de toda consolación.", reference: "2 Corintios 1:3" },
+                { text: "Jehová está cerca de los quebrantados de corazón; y salva a los contritos de espíritu.", reference: "Salmos 34:18" },
+                { text: "No os entristezcáis, porque el gozo de Jehová es vuestra fuerza.", reference: "Nehemías 8:10" },
+                { text: "Porque su ira dura solo un momento; pero su favor dura toda la vida.", reference: "Salmos 30:5" }
+            ],
+            ansiedad: [
+                { text: "Por nada estéis afanosos, sino sean conocidas vuestras peticiones delante de Dios en toda oración y ruego, con acción de gracias.", reference: "Filipenses 4:6" },
+                { text: "Echando toda vuestra ansiedad sobre él, porque él tiene cuidado de vosotros.", reference: "1 Pedro 5:7" },
+                { text: "La paz de Dios, que sobrepasa todo entendimiento, guardará vuestros corazones y vuestros pensamientos en Cristo Jesús.", reference: "Filipenses 4:7" },
+                { text: "No se turbe vuestro corazón; creéis en Dios, creed también en mí.", reference: "Juan 14:1" }
+            ],
+            desesperanza: [
+                { text: "Porque yo sé los pensamientos que tengo acerca de vosotros, dice Jehová, pensamientos de paz, y no de mal, para daros el fin que esperáis.", reference: "Jeremías 29:11" },
+                { text: "Pero los que esperan a Jehová tendrán nuevas fuerzas; levantarán alas como las águilas; correrán, y no se cansarán; caminarán, y no se fatigarán.", reference: "Isaías 40:31" },
+                { text: "Y el Dios de esperanza os llene de todo gozo y paz en el creer, para que abundéis en esperanza por el poder del Espíritu Santo.", reference: "Romanos 15:13" }
+            ],
+            felicidad: [
+                { text: "Gozaos en el Señor siempre. Otra vez digo: ¡Gozaos!", reference: "Filipenses 4:4" },
+                { text: "Estas cosas os he hablado para que mi gozo esté en vosotros, y vuestro gozo sea cumplido.", reference: "Juan 15:11" },
+                { text: "Me mostrarás la senda de la vida; en tu presencia hay plenitud de gozo; delicias a tu diestra para siempre.", reference: "Salmos 16:11" }
+            ],
+            paz: [
+                { text: "La paz de Dios, que sobrepasa todo entendimiento, guardará vuestros corazones y vuestros pensamientos en Cristo Jesús.", reference: "Filipenses 4:7" },
+                { text: "Estas cosas os he hablado para que en mí tengáis paz. En el mundo tendréis aflicción; pero confiad, yo he vencido al mundo.", reference: "Juan 16:33" },
+                { text: "Tú guardarás en completa paz a aquel cuyo pensamiento en ti persevera; porque en ti ha confiado.", reference: "Isaías 26:3" }
+            ],
+            esperanza: [
+                { text: "Porque yo sé los pensamientos que tengo acerca de vosotros, dice Jehová, pensamientos de paz, y no de mal, para daros el fin que esperáis.", reference: "Jeremías 29:11" },
+                { text: "Y el Dios de esperanza os llene de todo gozo y paz en el creer, para que abundéis en esperanza por el poder del Espíritu Santo.", reference: "Romanos 15:13" },
+                { text: "Es, pues, la fe la certeza de lo que se espera, la convicción de lo que no se ve.", reference: "Hebreos 11:1" }
+            ],
+            fortaleza: [
+                { text: "Todo lo puedo en Cristo que me fortalece.", reference: "Filipenses 4:13" },
+                { text: "El da esfuerzo al cansado, y multiplica las fuerzas al que no tiene ningunas.", reference: "Isaías 40:29" },
+                { text: "Jehová es mi fortaleza y mi escudo; en él confió mi corazón, y fui ayudado.", reference: "Salmos 28:7" }
+            ],
+            miedo: [
+                { text: "No temas, porque yo estoy contigo; no desmayes, porque yo soy tu Dios que te esfuerzo.", reference: "Isaías 41:10" },
+                { text: "Porque no nos ha dado Dios espíritu de cobardía, sino de poder, de amor y de dominio propio.", reference: "2 Timoteo 1:7" },
+                { text: "Jehová es mi luz y mi salvación; ¿de quién temeré?", reference: "Salmos 27:1" }
+            ],
+            gratitud: [
+                { text: "Dad gracias en todo, porque esta es la voluntad de Dios para con vosotros en Cristo Jesús.", reference: "1 Tesalonicenses 5:18" },
+                { text: "Entrad por sus puertas con acción de gracias, por sus atrios con alabanza.", reference: "Salmos 100:4" },
+                { text: "Bendice, alma mía, a Jehová, y no olvides ninguno de sus beneficios.", reference: "Salmos 103:2" }
+            ],
+            fe: [
+                { text: "Es, pues, la fe la certeza de lo que se espera, la convicción de lo que no se ve.", reference: "Hebreos 11:1" },
+                { text: "Jesús le dijo: Si puedes creer, al que cree todo le es posible.", reference: "Marcos 9:23" },
+                { text: "Porque por fe andamos, no por vista.", reference: "2 Corintios 5:7" }
+            ]
+        };
+
+        // Estados de ánimo con mensajes regalo personalizados
+        const moods = [
+            { 
+                id: 'tristeza', 
+                name: 'Tristeza', 
+                icon: 'fas fa-tint',
+                giftTitle: '💌 ¡MENSAJE ESPECIAL PARA TU ALMA!',
+                giftMessage: {
+                    female: 'Señorita [nombre], las lágrimas no son permanentes... Hoy Dios quiere secarlas con este versículo especialmente para ti.',
+                    male: 'Mi Líder [nombre], en los momentos difíciles... Dios fortalece tu espíritu con esta palabra de consuelo personalizada.'
+                }
+            },
+            { 
+                id: 'ansiedad', 
+                name: 'Ansiedad', 
+                icon: 'fas fa-wind',
+                giftTitle: '📦 ¡PAQUETE DE PAZ PARA TI!',
+                giftMessage: {
+                    female: 'Señorita [nombre], la ansiedad puede ser abrumadora... Dios te tiene un mensaje especial de tranquilidad personalizado.',
+                    male: 'Mi Líder [nombre], cuando la preocupación acecha... Dios te envía esta armadura de paz diseñada para ti.'
+                }
+            },
+            { 
+                id: 'desesperanza', 
+                name: 'Desesperanza', 
+                icon: 'fas fa-cloud',
+                giftTitle: '🌟 ¡REGALO DE ESPERANZA ENTREGADO!',
+                giftMessage: {
+                    female: 'Querida Señorita [nombre], en la oscuridad... Dios enciende una luz especial con esta palabra para tu corazón.',
+                    male: 'Valiente Líder [nombre], cuando el camino se oscurece... Dios ilumina tu senda con este mensaje de esperanza.'
+                }
+            },
+            { 
+                id: 'felicidad', 
+                name: 'Felicidad', 
+                icon: 'fas fa-smile',
+                giftTitle: '🎉 ¡CELEBREMOS JUNTOS TU ALEGRÍA!',
+                giftMessage: {
+                    female: 'Señorita [nombre], tu felicidad es un regalo... Dios quiere aumentarla con esta bendición especial para ti.',
+                    male: 'Mi Líder [nombre], tu gozo inspira... Dios celebra contigo y te bendice con esta palabra de alegría.'
+                }
+            },
+            { 
+                id: 'paz', 
+                name: 'Paz', 
+                icon: 'fas fa-dove',
+                giftTitle: '🕊️ ¡KIT DE TRANQUILIDAD PERSONALIZADO!',
+                giftMessage: {
+                    female: 'Señorita [nombre], en un mundo ruidoso... Dios te ofrece este oasis de paz diseñado especialmente para ti.',
+                    male: 'Mi Líder [nombre], en medio del caos... Dios te regala este puerto de tranquilidad hecho a tu medida.'
+                }
+            },
+            { 
+                id: 'esperanza', 
+                name: 'Esperanza', 
+                icon: 'fas fa-seedling',
+                giftTitle: '✨ ¡FUTURO BRILLANTE ASEGURADO!',
+                giftMessage: {
+                    female: 'Señorita [nombre], tus mejores días están por venir... Dios te garantiza este futuro brillante con su palabra.',
+                    male: 'Mi Líder [nombre], el mañana te pertenece... Dios confirma tu destino glorioso con este mensaje de esperanza.'
+                }
+            },
+            { 
+                id: 'fortaleza', 
+                name: 'Fortaleza', 
+                icon: 'fas fa-fist-raised',
+                giftTitle: '💪 ¡EQUIPO DE FUERZA DIVINA!',
+                giftMessage: {
+                    female: 'Señorita [nombre], para tus desafíos de hoy... Dios te equipa con esta palabra de poder personalizada.',
+                    male: 'Mi Líder [nombre], para las batallas que enfrentas... Dios te arma con esta fuerza divina especial.'
+                }
+            },
+            { 
+                id: 'miedo', 
+                name: 'Miedo', 
+                icon: 'fas fa-ghost',
+                giftTitle: '🛡️ ¡ESCUDO DE PROTECCIÓN ENTREGADO!',
+                giftMessage: {
+                    female: 'Señorita [nombre], el miedo no tiene poder... Dios te envía este mensaje de seguridad hecho para ti.',
+                    male: 'Mi Líder [nombre], el temor se disipa... Dios te cubre con este escudo de protección divina.'
+                }
+            },
+            { 
+                id: 'gratitud', 
+                name: 'Gratitud', 
+                icon: 'fas fa-hands',
+                giftTitle: '🙏 ¡BENDICIÓN MULTIPLICADA!',
+                giftMessage: {
+                    female: 'Señorita [nombre], tu corazón agradecido... Abre ventanas del cielo con esta palabra especial de gratitud.',
+                    male: 'Mi Líder [nombre], tu actitud de gratitud... Multiplica bendiciones con este mensaje de agradecimiento.'
+                }
+            },
+            { 
+                id: 'fe', 
+                name: 'Fe', 
+                icon: 'fas fa-mountain',
+                giftTitle: '⚡ ¡INYECCIÓN DE FE PREMIUM!',
+                giftMessage: {
+                    female: 'Señorita [nombre], la fe mueve montañas... Hoy Dios fortalece la tuya con este mensaje poderoso personalizado.',
+                    male: 'Mi Líder [nombre], tu fe es inquebrantable... Dios la potencia con esta inyección divina de confianza.'
+                }
+            }
+        ];
+
+        // Variables globales
+        let currentUser = null;
+        let currentMood = null;
+        let currentVerse = null;
+        let lastSavePath = null;
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoggedInUser();
+            setupEventListeners();
+            loadMoods();
+        });
+
+        // Verificar usuario logueado
+        function checkLoggedInUser() {
+            const loggedInUser = localStorage.getItem('currentUser');
+            if (loggedInUser) {
+                currentUser = JSON.parse(loggedInUser);
+                applyUserTheme();
+                showScreen('main-screen');
+                updateUserAvatar();
+                showWelcomeMessage();
+            }
+        }
+
+        // Mostrar mensaje de bienvenida personalizado
+        function showWelcomeMessage() {
+            if (!currentUser) return;
+            
+            const welcomeMessages = {
+                female: `¡Señorita ${currentUser.username}! 💫 Tu luz interior brilla hoy`,
+                male: `¡Mi Líder ${currentUser.username}! 💪 Tu fortaleza inspira hoy`
+            };
+            
+            const message = welcomeMessages[currentUser.gender] || `¡Hola ${currentUser.username}! ✨`;
+            createConfetti(15);
+        }
+
+        // Aplicar tema según género
+        function applyUserTheme() {
+            if (currentUser && currentUser.gender) {
+                document.body.classList.remove('theme-male', 'theme-female');
+                document.body.classList.add(`theme-${currentUser.gender}`);
+            }
+        }
+
+        // Actualizar avatar
+        function updateUserAvatar() {
+            const avatars = document.querySelectorAll('.user-avatar');
+            avatars.forEach(avatar => {
+                if (currentUser) {
+                    avatar.textContent = currentUser.username.charAt(0).toUpperCase();
+                }
+            });
+        }
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Navegación
+            document.getElementById('login-btn').addEventListener('click', () => showScreen('login-screen'));
+            document.getElementById('register-btn').addEventListener('click', () => showScreen('register-screen'));
+            document.getElementById('load-data-btn').addEventListener('click', () => showScreen('load-data-screen'));
+            document.getElementById('register-back').addEventListener('click', () => showScreen('welcome-screen'));
+            document.getElementById('login-back').addEventListener('click', () => showScreen('welcome-screen'));
+            document.getElementById('load-data-back').addEventListener('click', () => showScreen('welcome-screen'));
+            document.getElementById('logout-btn').addEventListener('click', logoutWithReminder);
+            document.getElementById('verse-back').addEventListener('click', () => showScreen('main-screen'));
+            document.getElementById('fav-back').addEventListener('click', () => showScreen('main-screen'));
+            document.getElementById('data-back').addEventListener('click', () => showScreen('main-screen'));
+            document.getElementById('gift-back').addEventListener('click', () => showScreen('main-screen'));
+            document.getElementById('data-btn').addEventListener('click', () => showScreen('data-screen'));
+            
+            // Formularios
+            document.getElementById('register-form').addEventListener('submit', registerUser);
+            document.getElementById('login-form').addEventListener('submit', loginUser);
+            document.getElementById('register-password').addEventListener('input', validatePassword);
+            
+            // Botones principales
+            document.getElementById('favorites-btn').addEventListener('click', () => {
+                loadFavorites();
+                loadJournalEntries();
+                showScreen('favorites-screen');
+            });
+            document.getElementById('journal-btn').addEventListener('click', () => {
+                document.querySelector('[data-tab="journal"]').click();
+                showScreen('favorites-screen');
+            });
+            
+            // Funcionalidad versículos
+            document.getElementById('new-verse-btn').addEventListener('click', showRandomVerse);
+            document.getElementById('add-favorite-btn').addEventListener('click', addToFavorites);
+            document.getElementById('open-gift-btn').addEventListener('click', showRandomVerseScreen);
+            
+            // Pestañas
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                    
+                    // Cargar contenido específico de la pestaña
+                    if (tabId === 'favorites') {
+                        loadFavorites();
+                    } else if (tabId === 'journal') {
+                        loadJournalEntries();
+                    }
+                });
+            });
+            
+            // Diario
+            document.getElementById('save-journal-btn').addEventListener('click', saveJournalEntry);
+            
+            // Exportar/Importar
+            document.getElementById('save-data-btn').addEventListener('click', saveUserDataToFile);
+            document.getElementById('export-data-btn').addEventListener('click', exportUserData);
+            document.getElementById('import-data-btn').addEventListener('click', importUserData);
+            document.getElementById('process-data-btn').addEventListener('click', processLoadedData);
+        }
+
+        // Cargar estados de ánimo
+        function loadMoods() {
+            const moodGrid = document.getElementById('mood-grid');
+            moodGrid.innerHTML = '';
+            
+            moods.forEach(mood => {
+                const moodElement = document.createElement('div');
+                moodElement.className = 'mood-item';
+                moodElement.innerHTML = `
+                    <div class="mood-icon">
+                        <i class="${mood.icon}"></i>
+                    </div>
+                    <div class="mood-name">${mood.name}</div>
+                `;
+                moodElement.addEventListener('click', () => selectMood(mood));
+                moodGrid.appendChild(moodElement);
+            });
+        }
+
+        // Seleccionar estado de ánimo
+        function selectMood(mood) {
+            currentMood = mood;
+            showGiftMessage();
+            showScreen('gift-screen');
+        }
+
+        // Mostrar mensaje regalo
+        function showGiftMessage() {
+            if (!currentMood || !currentUser) return;
+            
+            const userMessage = currentMood.giftMessage[currentUser.gender] || currentMood.giftMessage.male;
+            const personalizedMessage = userMessage.replace('[nombre]', currentUser.username);
+            
+            const giftContainer = document.getElementById('gift-container');
+            giftContainer.innerHTML = `
+                <div class="gift-message">
+                    <div class="gift-title">${currentMood.giftTitle}</div>
+                    <div class="gift-text">${personalizedMessage}</div>
+                </div>
+            `;
+            
+            createConfetti(8);
+        }
+
+        // Mostrar pantalla de versículos
+        function showRandomVerseScreen() {
+            if (!currentMood) return;
+            showRandomVerse();
+            showScreen('verse-screen');
+        }
+
+        // Mostrar versículo aleatorio
+        function showRandomVerse() {
+            if (!currentMood) return;
+            
+            const verses = bibleVerses[currentMood.id];
+            if (!verses || verses.length === 0) return;
+            
+            const randomIndex = Math.floor(Math.random() * verses.length);
+            currentVerse = verses[randomIndex];
+            
+            const verseContainer = document.getElementById('verse-container');
+            verseContainer.innerHTML = `
+                <div class="verse-card">
+                    <button class="favorite-btn" id="verse-favorite-btn">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="verse-text">"${currentVerse.text}"</div>
+                    <div class="verse-reference">${currentVerse.reference}</div>
+                </div>
+            `;
+            
+            const userData = getUserData();
+            const isFavorite = userData.favorites.some(fav => 
+                fav.text === currentVerse.text && fav.reference === currentVerse.reference
+            );
+            
+            const favoriteBtn = document.getElementById('verse-favorite-btn');
+            if (isFavorite) {
+                favoriteBtn.innerHTML = '<i class="fas fa-heart"></i>';
+                favoriteBtn.classList.add('active');
+            }
+            
+            favoriteBtn.addEventListener('click', toggleFavorite);
+            createConfetti(5);
+        }
+
+        // Alternar favorito
+        function toggleFavorite() {
+            if (!currentVerse) return;
+            
+            const userData = getUserData();
+            const favoriteIndex = userData.favorites.findIndex(fav => 
+                fav.text === currentVerse.text && fav.reference === currentVerse.reference
+            );
+            
+            const favoriteBtn = document.getElementById('verse-favorite-btn');
+            
+            if (favoriteIndex === -1) {
+                userData.favorites.push({
+                    text: currentVerse.text,
+                    reference: currentVerse.reference,
+                    mood: currentMood.id,
+                    date: new Date().toISOString()
+                });
+                favoriteBtn.innerHTML = '<i class="fas fa-heart"></i>';
+                favoriteBtn.classList.add('active');
+                showMessage('✨ ¡Versículo guardado en tus tesoros!', 'success');
+                createConfetti(8);
+            } else {
+                userData.favorites.splice(favoriteIndex, 1);
+                favoriteBtn.innerHTML = '<i class="far fa-heart"></i>';
+                favoriteBtn.classList.remove('active');
+                showMessage('Versículo eliminado de favoritos', 'success');
+            }
+            
+            saveUserData(userData);
+        }
+
+        // Añadir a favoritos
+        function addToFavorites() {
+            toggleFavorite();
+        }
+
+        // Cargar favoritos
+        function loadFavorites() {
+            const userData = getUserData();
+            const favoritesList = document.getElementById('favorites-list');
+            
+            if (userData.favorites.length === 0) {
+                favoritesList.innerHTML = '<p style="text-align: center; padding: 40px; color: #6B7280;">Aún no tienes versículos guardados en tus tesoros.</p>';
+                return;
+            }
+            
+            favoritesList.innerHTML = '';
+            userData.favorites.forEach((fav, index) => {
+                const favoriteElement = document.createElement('div');
+                favoriteElement.className = 'verse-card';
+                favoriteElement.innerHTML = `
+                    <button class="favorite-btn active" data-index="${index}">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                    <div class="verse-text">"${fav.text}"</div>
+                    <div class="verse-reference">${fav.reference}</div>
+                    <div style="margin-top: 12px; font-size: 0.9rem; color: #6B7280;">
+                        Guardado el ${new Date(fav.date).toLocaleDateString()}
+                    </div>
+                `;
+                
+                const removeBtn = favoriteElement.querySelector('.favorite-btn');
+                removeBtn.addEventListener('click', function() {
+                    removeFavorite(parseInt(this.getAttribute('data-index')));
+                });
+                
+                favoritesList.appendChild(favoriteElement);
+            });
+        }
+
+        // Eliminar favorito
+        function removeFavorite(index) {
+            const userData = getUserData();
+            userData.favorites.splice(index, 1);
+            saveUserData(userData);
+            loadFavorites();
+            showMessage('Versículo eliminado de tus tesoros', 'success');
+        }
+
+        // Cargar entradas diario
+        function loadJournalEntries() {
+            const userData = getUserData();
+            const journalEntries = document.getElementById('journal-entries');
+            
+            if (userData.journal.length === 0) {
+                journalEntries.innerHTML = '<p style="text-align: center; padding: 40px; color: #6B7280;">Aún no tienes entradas en tu diario personal.</p>';
+                return;
+            }
+            
+            journalEntries.innerHTML = '';
+            userData.journal.forEach((entry, index) => {
+                const entryElement = document.createElement('div');
+                entryElement.className = 'journal-entry';
+                entryElement.innerHTML = `
+                    <div class="journal-date">${new Date(entry.date).toLocaleString()}</div>
+                    <div class="journal-text">${entry.text}</div>
+                    <button class="btn btn-small" data-index="${index}" style="margin-top: 12px; background: rgba(239,68,68,0.1); color: var(--danger);">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                `;
+                
+                const deleteBtn = entryElement.querySelector('button');
+                deleteBtn.addEventListener('click', function() {
+                    deleteJournalEntry(parseInt(this.getAttribute('data-index')));
+                });
+                
+                journalEntries.appendChild(entryElement);
+            });
+        }
+
+        // Guardar entrada diario
+        function saveJournalEntry() {
+            const journalText = document.getElementById('journal-entry').value.trim();
+            
+            if (!journalText) {
+                showMessage('Por favor, escribe algo en tu diario', 'error');
+                return;
+            }
+            
+            const userData = getUserData();
+            userData.journal.unshift({
+                text: journalText,
+                date: new Date().toISOString()
+            });
+            
+            saveUserData(userData);
+            document.getElementById('journal-entry').value = '';
+            loadJournalEntries();
+            showMessage('✨ ¡Entrada guardada en tu diario personal!', 'success');
+            createConfetti(5);
+        }
+
+        // Eliminar entrada diario
+        function deleteJournalEntry(index) {
+            const userData = getUserData();
+            userData.journal.splice(index, 1);
+            saveUserData(userData);
+            loadJournalEntries();
+            showMessage('Entrada eliminada del diario', 'success');
+        }
+
+        // Validar contraseña
+        function validatePassword() {
+            const password = document.getElementById('register-password').value;
+            const errorElement = document.getElementById('password-error');
+            
+            if (password.length < 8) {
+                errorElement.textContent = 'La contraseña debe tener al menos 8 caracteres';
+                errorElement.style.display = 'block';
+                return false;
+            }
+            
+            if (!/\d/.test(password)) {
+                errorElement.textContent = 'La contraseña debe contener al menos 1 número';
+                errorElement.style.display = 'block';
+                return false;
+            }
+            
+            errorElement.style.display = 'none';
+            return true;
+        }
+
+        // Registrar usuario
+        function registerUser(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('register-username').value.trim();
+            const password = document.getElementById('register-password').value;
+            const gender = document.getElementById('register-gender').value;
+            
+            if (!username || !password || !gender) {
+                showMessage('Por favor, completa todos los campos', 'error');
+                return;
+            }
+            
+            if (!validatePassword()) {
+                return;
+            }
+            
+            const existingUsers = JSON.parse(localStorage.getItem('users') || '{}');
+            if (existingUsers[username]) {
+                showMessage('Este nombre de usuario ya está en uso', 'error');
+                return;
+            }
+            
+            existingUsers[username] = {
+                username,
+                password,
+                gender,
+                favorites: [],
+                journal: [],
+                lastBackup: null
+            };
+            
+            localStorage.setItem('users', JSON.stringify(existingUsers));
+            
+            currentUser = { username, gender };
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            applyUserTheme();
+            updateUserAvatar();
+            showScreen('main-screen');
+            showWelcomeMessage();
+            
+            showMessage('✨ ¡Cuenta creada exitosamente!', 'success');
+            createConfetti(15);
+        }
+
+        // Iniciar sesión
+        function loginUser(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value;
+            
+            if (!username || !password) {
+                showMessage('Por favor, completa todos los campos', 'error');
+                return;
+            }
+            
+            const existingUsers = JSON.parse(localStorage.getItem('users') || '{}');
+            const user = existingUsers[username];
+            
+            if (!user || user.password !== password) {
+                showMessage('Usuario o contraseña incorrectos', 'error');
+                return;
+            }
+            
+            currentUser = { username, gender: user.gender };
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            applyUserTheme();
+            updateUserAvatar();
+            showScreen('main-screen');
+            showWelcomeMessage();
+            
+            showMessage(`✨ ¡Bienvenido de nuevo, ${username}!`, 'success');
+            createConfetti(10);
+        }
+
+        // Cerrar sesión con recordatorio
+        function logoutWithReminder() {
+            const userData = getUserData();
+            const lastBackup = userData.lastBackup;
+            const today = new Date().toISOString().split('T')[0];
+            
+            if (!lastBackup || lastBackup !== today) {
+                if (confirm('¿Quieres GUARDAR tus datos antes de salir?\n\n- "Aceptar": Actualiza tu archivo existente\n- "Cancelar": No guardar cambios\n\nTus tesoros y reflexiones estarán más seguros.')) {
+                    saveUserDataToFile();
+                }
+            }
+            
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            showScreen('welcome-screen');
+            showMessage('¡Hasta pronto! Vuelve por tu próximo regalo divino 🌈', 'success');
+        }
+
+        // Guardar datos (actualizar archivo existente)
+        function saveUserDataToFile() {
+            const userData = getUserData();
+            const exportData = {
+                app: "Ilumina Tus Sentimientos",
+                version: "1.0",
+                exportDate: new Date().toISOString(),
+                user: currentUser.username,
+                gender: currentUser.gender,
+                ...userData
+            };
+            
+            // Actualizar último respaldo
+            userData.lastBackup = new Date().toISOString().split('T')[0];
+            saveUserData(userData);
+            
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            
+            // Si tenemos una ruta guardada anteriormente, intentar usar el mismo archivo
+            if (lastSavePath) {
+                try {
+                    const url = URL.createObjectURL(dataBlob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = lastSavePath;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    showMessage('✨ ¡Datos guardados exitosamente!', 'success');
+                    updateLastSaveInfo();
+                    createConfetti(5);
+                    return;
+                } catch (error) {
+                    console.log('No se pudo guardar en la ubicación anterior, se usará "Guardar Como"');
+                }
+            }
+            
+            // Si no hay ruta guardada o falló, usar "Guardar Como"
+            exportDataAsNewFile(exportData, dataBlob);
+        }
+
+        // Guardar como nuevo archivo
+        function exportDataAsNewFile(exportData, dataBlob) {
+            const url = URL.createObjectURL(dataBlob);
+            const a = document.createElement('a');
+            const timestamp = new Date().toISOString().split('T')[0];
+            a.href = url;
+            a.download = `ilumina_tus_sentimientos_${currentUser.username}_${timestamp}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            // Guardar la ruta para futuros "Guardar"
+            lastSavePath = a.download;
+            
+            showMessage('✨ ¡Datos guardados como nuevo archivo!', 'success');
+            updateLastSaveInfo();
+            createConfetti(8);
+        }
+
+        // Exportar datos (función original - ahora es "Guardar Como")
+        function exportUserData() {
+            const userData = getUserData();
+            const exportData = {
+                app: "Ilumina Tus Sentimientos",
+                version: "1.0",
+                exportDate: new Date().toISOString(),
+                user: currentUser.username,
+                gender: currentUser.gender,
+                ...userData
+            };
+            
+            // Actualizar último respaldo
+            userData.lastBackup = new Date().toISOString().split('T')[0];
+            saveUserData(userData);
+            
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            
+            exportDataAsNewFile(exportData, dataBlob);
+        }
+
+        // Actualizar información del último guardado
+        function updateLastSaveInfo() {
+            const lastSaveInfo = document.getElementById('last-save-info');
+            const lastSaveText = document.getElementById('last-save-text');
+            
+            if (lastSavePath) {
+                const fileName = lastSavePath.split('/').pop() || lastSavePath;
+                lastSaveText.textContent = `Último guardado: ${fileName}`;
+                lastSaveInfo.style.display = 'block';
+            } else {
+                lastSaveInfo.style.display = 'none';
+            }
+        }
+
+        // Recordar la ruta al importar
+        function rememberImportedFilePath(file) {
+            lastSavePath = file.name;
+            updateLastSaveInfo();
+        }
+
+        // Importar datos
+        function importUserData() {
+            const fileInput = document.getElementById('import-file');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showMessage('Por favor, selecciona un archivo JSON primero', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    if (!importedData.favorites || !importedData.journal) {
+                        throw new Error('Este no es un archivo válido de "Ilumina Tus Sentimientos"');
+                    }
+                    
+                    // Para usuarios logueados, ofrecer opciones de importación
+                    if (currentUser) {
+                        const choice = confirm(`¿Quieres fusionar los datos del archivo con tu cuenta actual (${currentUser.username})?\n\n- Aceptar: Se fusionarán los datos\n- Cancelar: Se reemplazarán todos los datos`);
+                        
+                        const userData = getUserData();
+                        const existingUsers = JSON.parse(localStorage.getItem('users') || '{}');
+                        
+                        if (choice) {
+                            // FUSIÓN: Añadir solo datos nuevos
+                            importedData.favorites.forEach(newFav => {
+                                const exists = userData.favorites.some(existingFav => 
+                                    existingFav.text === newFav.text && existingFav.reference === newFav.reference
+                                );
+                                if (!exists) {
+                                    userData.favorites.push(newFav);
+                                }
+                            });
+                            
+                            importedData.journal.forEach(newEntry => {
+                                const exists = userData.journal.some(existingEntry => 
+                                    existingEntry.text === newEntry.text && existingEntry.date === newEntry.date
+                                );
+                                if (!exists) {
+                                    userData.journal.push(newEntry);
+                                }
+                            });
+                            
+                            showMessage('✨ ¡Datos fusionados exitosamente!', 'success');
+                        } else {
+                            // REEMPLAZO: Usar los datos del archivo
+                            userData.favorites = importedData.favorites;
+                            userData.journal = importedData.journal;
+                            showMessage('✨ ¡Datos reemplazados exitosamente!', 'success');
+                        }
+                        
+                        // Actualizar último respaldo
+                        userData.lastBackup = new Date().toISOString().split('T')[0];
+                        
+                        // Guardar cambios
+                        existingUsers[currentUser.username] = {
+                            ...existingUsers[currentUser.username],
+                            ...userData
+                        };
+                        
+                        localStorage.setItem('users', JSON.stringify(existingUsers));
+                        
+                        // Recargar vistas si es necesario
+                        if (document.getElementById('favorites-screen').classList.contains('active')) {
+                            loadFavorites();
+                            loadJournalEntries();
+                        }
+                    }
+                    
+                    fileInput.value = '';
+                    rememberImportedFilePath(file);
+                    createConfetti(8);
+                    
+                } catch (error) {
+                    showMessage('Error al importar: ' + error.message, 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Procesar datos cargados
+        function processLoadedData() {
+            const fileInput = document.getElementById('load-data-file');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showLoadDataMessage('Por favor, selecciona un archivo JSON', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    if (!importedData.favorites || !importedData.journal || !importedData.user) {
+                        throw new Error('Archivo no válido de "Ilumina Tus Sentimientos"');
+                    }
+                    
+                    // Obtener usuarios existentes
+                    const existingUsers = JSON.parse(localStorage.getItem('users') || '{}');
+                    
+                    // Verificar si el usuario ya existe
+                    if (existingUsers[importedData.user]) {
+                        // Usuario existe - preguntar si quiere fusionar datos
+                        if (confirm(`El usuario "${importedData.user}" ya existe. ¿Quieres fusionar los datos del archivo con los existentes?\n\n- Sí: Se añadirán los nuevos datos\n- No: Se mantendrán los datos actuales`)) {
+                            // Fusionar favoritos (evitando duplicados)
+                            importedData.favorites.forEach(newFav => {
+                                const exists = existingUsers[importedData.user].favorites.some(existingFav => 
+                                    existingFav.text === newFav.text && existingFav.reference === newFav.reference
+                                );
+                                if (!exists) {
+                                    existingUsers[importedData.user].favorites.push(newFav);
+                                }
+                            });
+                            
+                            // Fusionar entradas de diario (evitando duplicados por fecha y texto)
+                            importedData.journal.forEach(newEntry => {
+                                const exists = existingUsers[importedData.user].journal.some(existingEntry => 
+                                    existingEntry.text === newEntry.text && existingEntry.date === newEntry.date
+                                );
+                                if (!exists) {
+                                    existingUsers[importedData.user].journal.push(newEntry);
+                                }
+                            });
+                            
+                            showLoadDataMessage('✨ ¡Datos fusionados exitosamente! Ahora puedes iniciar sesión.', 'success');
+                        } else {
+                            showLoadDataMessage('Se mantuvieron los datos existentes. Puedes iniciar sesión normalmente.', 'success');
+                        }
+                    } else {
+                        // Usuario nuevo - crear automáticamente
+                        existingUsers[importedData.user] = {
+                            username: importedData.user,
+                            password: '123456', // Contraseña por defecto
+                            gender: importedData.gender || 'male',
+                            favorites: importedData.favorites || [],
+                            journal: importedData.journal || [],
+                            lastBackup: new Date().toISOString().split('T')[0]
+                        };
+                        
+                        showLoadDataMessage(`✨ ¡Usuario "${importedData.user}" creado automáticamente! Contraseña: 123456 - Puedes cambiarla después.`, 'success');
+                    }
+                    
+                    // Guardar en localStorage
+                    localStorage.setItem('users', JSON.stringify(existingUsers));
+                    
+                    // Limpiar el campo de archivo
+                    fileInput.value = '';
+                    rememberImportedFilePath(file);
+                    
+                    // Mostrar opciones al usuario
+                    setTimeout(() => {
+                        if (confirm('¿Quieres iniciar sesión ahora con los datos cargados?')) {
+                            showScreen('login-screen');
+                            document.getElementById('login-username').value = importedData.user;
+                            document.getElementById('login-password').value = '123456';
+                        } else {
+                            showLoadDataMessage('Los datos se han guardado. Puedes iniciar sesión cuando quieras.', 'success');
+                        }
+                    }, 1000);
+                    
+                } catch (error) {
+                    showLoadDataMessage('Error: ' + error.message, 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Obtener datos usuario
+        function getUserData() {
+            if (!currentUser) return { favorites: [], journal: [], lastBackup: null };
+            
+            const existingUsers = JSON.parse(localStorage.getItem('users') || '{}');
+            const user = existingUsers[currentUser.username];
+            
+            return user || { favorites: [], journal: [], lastBackup: null };
+        }
+
+        // Guardar datos usuario
+        function saveUserData(userData) {
+            if (!currentUser) return;
+            
+            const existingUsers = JSON.parse(localStorage.getItem('users') || '{}');
+            existingUsers[currentUser.username] = {
+                ...existingUsers[currentUser.username],
+                ...userData
+            };
+            
+            localStorage.setItem('users', JSON.stringify(existingUsers));
+        }
+
+        // Mostrar pantalla
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        // Mostrar mensaje
+        function showMessage(message, type) {
+            const messageElement = document.getElementById('data-message');
+            messageElement.textContent = message;
+            messageElement.className = `message ${type}`;
+            messageElement.style.display = 'block';
+            
+            setTimeout(() => {
+                messageElement.style.display = 'none';
+            }, 4000);
+        }
+
+        // Mostrar mensaje carga datos
+        function showLoadDataMessage(message, type) {
+            const messageElement = document.getElementById('load-data-message');
+            messageElement.textContent = message;
+            messageElement.className = `message ${type}`;
+            messageElement.style.display = 'block';
+        }
+
+        // Crear confeti
+        function createConfetti(count) {
+            for (let i = 0; i < count; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = getRandomColor();
+                confetti.style.animation = `confettiFall ${1 + Math.random() * 2}s linear forwards`;
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3000);
+            }
+        }
+
+        function getRandomColor() {
+            const colors = ['#2563EB', '#60A5FA', '#D97706', '#F59E0B', '#10B981', '#EF4444'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+    </script>
+</body>
+</html>
