@@ -19,22 +19,31 @@
             --warning: #F59E0B;
             --safe-top: env(safe-area-inset-top);
             --safe-bottom: env(safe-area-inset-bottom);
+            --button-primary: #2563EB;
+            --button-secondary: #60A5FA;
+            --button-accent: #D97706;
         }
 
         .theme-male {
             --primary: #1E40AF;
             --secondary: #3B82F6;
-            --accent: #D97706;
+            --accent: #059669;
             --light: #F0F9FF;
-            --dark: #1E3A8A;
+            --dark: #1E293B;
+            --button-primary: #1E40AF;
+            --button-secondary: #3B82F6;
+            --button-accent: #059669;
         }
 
         .theme-female {
-            --primary: #2563EB;
-            --secondary: #60A5FA;
-            --accent: #D97706;
-            --light: #FEF7FF;
-            --dark: #1F2937;
+            --primary: #C026D3;
+            --secondary: #E879F9;
+            --accent: #DB2777;
+            --light: #FDF4FF;
+            --dark: #701A75;
+            --button-primary: #C026D3;
+            --button-secondary: #E879F9;
+            --button-accent: #DB2777;
         }
 
         * {
@@ -42,6 +51,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -51,6 +61,7 @@
             line-height: 1.6;
             min-height: 100vh;
             padding: var(--safe-top) 0 var(--safe-bottom) 0;
+            touch-action: manipulation;
         }
 
         .app-container {
@@ -130,7 +141,7 @@
 
         .btn {
             display: inline-block;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, var(--button-primary) 0%, var(--button-secondary) 100%);
             color: white;
             border: none;
             padding: 18px 32px;
@@ -145,6 +156,9 @@
             min-height: 60px;
             position: relative;
             overflow: hidden;
+            min-width: 140px;
+            touch-action: manipulation;
+            user-select: none;
         }
 
         .btn::after {
@@ -173,18 +187,27 @@
         }
 
         .btn-accent {
-            background: linear-gradient(135deg, var(--accent) 0%, #F59E0B 100%);
+            background: linear-gradient(135deg, var(--button-accent) 0%, var(--accent) 100%);
             color: white;
         }
 
         .btn-secondary {
-            background: linear-gradient(135deg, var(--secondary) 0%, #93C5FD 100%);
+            background: linear-gradient(135deg, var(--button-secondary) 0%, var(--secondary) 100%);
         }
 
         .btn-small {
             padding: 14px 24px;
             font-size: 1rem;
             min-height: 50px;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            min-width: 120px;
+            font-size: 1rem;
+            padding: 12px 20px;
         }
 
         .form-group {
@@ -251,6 +274,8 @@
             align-items: center;
             justify-content: center;
             min-height: 150px;
+            touch-action: manipulation;
+            user-select: none;
         }
 
         .mood-item:hover {
@@ -270,7 +295,7 @@
         }
 
         .gift-message {
-            background: linear-gradient(135deg, #60A5FA 0%, #2563EB 100%);
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
             color: white;
             border-radius: 20px;
             padding: 35px 30px;
@@ -346,6 +371,7 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
+            touch-action: manipulation;
         }
 
         .favorite-btn:hover {
@@ -382,6 +408,7 @@
             flex: 1;
             text-align: center;
             font-size: 1.1rem;
+            touch-action: manipulation;
         }
 
         .tab.active {
@@ -432,7 +459,7 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent) 0%, #F59E0B 100%);
+            background: linear-gradient(135deg, var(--accent) 0%, var(--button-accent) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -449,14 +476,19 @@
             color: white;
             cursor: pointer;
             font-size: 1rem;
-            padding: 10px 16px;
-            border-radius: 20px;
+            padding: 12px 20px;
+            border-radius: 25px;
             transition: all 0.3s ease;
             font-weight: 500;
+            min-width: 120px;
+            touch-action: manipulation;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         .logout-btn:hover {
             background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
         }
 
         .message {
@@ -499,7 +531,7 @@
         .file-input {
             width: 100%;
             padding: 18px;
-            border: 2px dashed #60A5FA;
+            border: 2px dashed var(--secondary);
             border-radius: 12px;
             background: rgba(96, 165, 250, 0.1);
             cursor: pointer;
@@ -509,7 +541,7 @@
         
         .file-input:hover {
             background: rgba(96, 165, 250, 0.2);
-            border-color: #2563EB;
+            border-color: var(--primary);
         }
         
         .file-input::file-selector-button {
@@ -554,7 +586,7 @@
         }
 
         .backup-reminder {
-            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            background: linear-gradient(135deg, var(--warning) 0%, var(--accent) 100%);
             color: white;
             border-radius: 16px;
             padding: 25px;
@@ -575,7 +607,7 @@
             margin-bottom: 20px;
         }
 
-        /* Responsive */
+        /* Mejoras para móviles */
         @media (max-width: 768px) {
             .app-container {
                 padding: 15px;
@@ -594,15 +626,33 @@
                 position: static;
                 justify-content: center;
                 margin-top: 20px;
+                flex-direction: column;
+                gap: 15px;
             }
             
             .btn {
                 width: 100%;
-                margin: 10px 0;
+                margin: 8px 0;
+                min-height: 55px;
+                font-size: 1rem;
             }
             
             .verse-text {
                 font-size: 1.2rem;
+            }
+            
+            .logout-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+            
+            header {
+                padding: 25px 15px;
+            }
+            
+            .user-avatar {
+                margin-right: 0;
+                margin-bottom: 10px;
             }
         }
 
@@ -616,8 +666,46 @@
             }
             
             header {
-                padding: 25px 15px;
+                padding: 20px 12px;
             }
+            
+            .btn {
+                padding: 16px 24px;
+                min-height: 50px;
+            }
+            
+            .gift-message {
+                padding: 25px 20px;
+            }
+            
+            .verse-card {
+                padding: 25px 20px;
+            }
+        }
+
+        /* Correcciones específicas para botones en móviles */
+        @media (hover: none) and (pointer: coarse) {
+            .btn:hover {
+                transform: none;
+            }
+            
+            .mood-item:hover {
+                transform: none;
+            }
+            
+            .btn:active, .mood-item:active {
+                transform: scale(0.98);
+            }
+            
+            .logout-btn:active {
+                transform: scale(0.95);
+            }
+        }
+
+        /* Mejora de accesibilidad para botones */
+        .btn:focus-visible, .logout-btn:focus-visible, .favorite-btn:focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 2px;
         }
     </style>
 </head>
@@ -682,7 +770,7 @@
                 
                 <div style="text-align: center; margin-top: 35px;">
                     <button type="submit" class="btn btn-accent">Crear Mi Cuenta</button>
-                    <button type="button" id="register-back" class="btn btn-secondary">Volver</button>
+                    <button type="button" id="register-back" class="btn btn-back">Volver</button>
                 </div>
             </form>
         </div>
@@ -707,7 +795,7 @@
                 
                 <div style="text-align: center; margin-top: 35px;">
                     <button type="submit" class="btn btn-accent">Ingresar</button>
-                    <button type="button" id="login-back" class="btn btn-secondary">Volver</button>
+                    <button type="button" id="login-back" class="btn btn-back">Volver</button>
                 </div>
             </form>
         </div>
@@ -886,7 +974,7 @@
             </div>
             
             <div style="text-align: center; margin-top: 30px;">
-                <button id="load-data-back" class="btn btn-secondary">Volver al Inicio</button>
+                <button id="load-data-back" class="btn btn-back">Volver al Inicio</button>
             </div>
             
             <div id="load-data-message" class="message" style="display: none;"></div>
@@ -1197,6 +1285,11 @@
 
         // Seleccionar estado de ánimo
         function selectMood(mood) {
+            if (!currentUser) {
+                showMessage('Por favor, inicia sesión primero', 'error');
+                showScreen('login-screen');
+                return;
+            }
             currentMood = mood;
             showGiftMessage();
             showScreen('gift-screen');
@@ -1868,7 +1961,7 @@
         }
 
         function getRandomColor() {
-            const colors = ['#2563EB', '#60A5FA', '#D97706', '#F59E0B', '#10B981', '#EF4444'];
+            const colors = ['#2563EB', '#60A5FA', '#D97706', '#F59E0B', '#10B981', '#EF4444', '#C026D3', '#DB2777'];
             return colors[Math.floor(Math.random() * colors.length)];
         }
     </script>
